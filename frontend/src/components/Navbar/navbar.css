@@ -1,0 +1,29 @@
+/* Animation for the navigation link */
+.nav-link {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 4px; /* To add space for the underline */
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #fbbf24; /* You can change this color */
+  transform: scaleX(0);
+  transform-origin: bottom right;
+  transition: transform 0.3s ease-out;
+}
+
+.nav-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+/* Optional: Add a transition to the link color for a smooth hover effect */
+.nav-link:hover {
+  color: #fbbf24; /* Highlight color on hover */
+}
