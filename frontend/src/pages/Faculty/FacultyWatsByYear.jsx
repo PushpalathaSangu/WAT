@@ -156,7 +156,7 @@ export default function FacultyWatsByYear() {
                   {currentTime.toLocaleDateString()}
                 </div>
                 <button 
-                  onClick={() => navigate(`/faculty/create-wat?year=${year}`)}
+                  onClick={() => navigate(`/faculty/mcqs`)}
                   className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-md flex items-center text-sm w-full sm:w-auto justify-center"
                 >
                   <FaPlus className="mr-2" />

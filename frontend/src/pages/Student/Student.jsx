@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaBars, FaCheckCircle, FaEdit } from 'react-icons/fa';
+import { FaBars, FaCheckCircle, FaEdit, FaExclamationTriangle } from 'react-icons/fa';
 import axios from 'axios';
 import StudentSidebar from './StudentSidebar';
 
@@ -14,6 +14,7 @@ export default function Student() {
   const [submissions, setSubmissions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [timeConflicts, setTimeConflicts] = useState([]);
 
   useEffect(() => {
     const year = localStorage.getItem('year');
@@ -41,8 +42,14 @@ export default function Student() {
           axios.get(`http://localhost:4000/api/wats/active/by-year/${studentYear}`),
           axios.get(`http://localhost:4000/api/wats/submissions/student/${studentId}`)
         ]);
+        
         setWats(watsRes.data);
         setSubmissions(subsRes.data);
+        
+        // Detect time conflicts
+        const conflicts = detectTimeConflicts(watsRes.data);
+        setTimeConflicts(conflicts);
+        
         if (!watsRes.data.length) {
           setError('No active WATs found for your year');
         }
@@ -57,10 +64,46 @@ export default function Student() {
     fetchData();
   }, [studentYear, studentId]);
 
+  const detectTimeConflicts = (wats) => {
+    const conflicts = [];
+    const sortedWats = [...wats].sort((a, b) => new Date(a.startTime) - new Date(b.startTime));
+    
+    for (let i = 0; i < sortedWats.length - 1; i++) {
+      const currentEnd = new Date(sortedWats[i].endTime);
+      const nextStart = new Date(sortedWats[i + 1].startTime);
+      
+      if (currentEnd > nextStart) {
+        conflicts.push({
+          wat1: sortedWats[i],
+          wat2: sortedWats[i + 1],
+          conflictPeriod: {
+            start: nextStart,
+            end: currentEnd < new Date(sortedWats[i + 1].endTime) ? currentEnd : new Date(sortedWats[i + 1].endTime)
+          }
+        });
+      }
+    }
+    
+    return conflicts;
+  };
+
+  const formatDateTime = (dateString) => {
+    const options = { 
+      weekday: 'short', 
+      year: 'numeric', 
+      month: 'short', 
+      day: 'numeric',
+      hour: '2-digit', 
+      minute: '2-digit',
+      hour12: true
+    };
+    return new Date(dateString).toLocaleString('en-US', options);
+  };
+
   const hasAttempted = (watId) => submissions.some((s) => s.watId === watId);
 
   return (
-    <div className="h-screen flex flex-col bg-gray-100">
+    <div className="min-h-screen flex flex-col bg-gray-100">
       {/* Mobile Top Bar */}
       <div className="md:hidden p-4 bg-white shadow flex justify-between items-center">
         <button
@@ -81,7 +124,11 @@ export default function Student() {
           md:relative md:translate-x-0 transition-transform duration-300 ease-in-out
           ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}
         >
-          <StudentSidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+          <div className="h-full flex flex-col">
+            <StudentSidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+            {/* This pushes the sidebar content to extend to the bottom */}
+            <div className="flex-grow"></div>
+          </div>
         </div>
 
         {/* Overlay */}
@@ -106,9 +153,26 @@ export default function Student() {
               </p>
             </div>
 
+            {/* Time Conflicts Warning */}
+            {timeConflicts.length > 0 && (
+              <div className="mb-6 bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r">
+                <div className="flex items-center">
+                  <FaExclamationTriangle className="text-yellow-400 mr-2" />
+                  <h3 className="font-bold text-yellow-800">Time Conflict Warning</h3>
+                </div>
+                <div className="ml-6 mt-2">
+                  {timeConflicts.map((conflict, index) => (
+                    <p key={index} className="text-yellow-700 text-sm mb-1">
+                      {conflict.wat1.subject} WAT{conflict.wat1.watNumber} and {conflict.wat2.subject} WAT{conflict.wat2.watNumber} overlap between {formatDateTime(conflict.conflictPeriod.start)} and {formatDateTime(conflict.conflictPeriod.end)}
+                    </p>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Error / Loading */}
             {error ? (
-              <div className="text-center text-red-500 text-sm">{error}</div>
+              <div className="text-center text-sm">{error}</div>
             ) : loading ? (
               <div className="flex justify-center items-center py-10">
                 <div className="animate-spin rounded-full h-10 w-10 border-4 border-blue-100 border-t-blue-500"></div>
@@ -132,10 +196,10 @@ export default function Student() {
                         <h3 className="text-lg font-semibold text-gray-800">
                           {wat.subject} - WAT {wat.watNumber}
                         </h3>
-                        <p className="text-sm text-gray-500 mt-1">
-                          {new Date(wat.startTime).toLocaleString()} -{' '}
-                          {new Date(wat.endTime).toLocaleString()}
-                        </p>
+                        <div className="mt-2 text-sm text-gray-500">
+                          <p>Start: {formatDateTime(wat.startTime)}</p>
+                          <p>End: {formatDateTime(wat.endTime)}</p>
+                        </div>
                         {attempted ? (
                           <p className="mt-3 text-sm font-medium text-green-700">
                             Attempted ✅

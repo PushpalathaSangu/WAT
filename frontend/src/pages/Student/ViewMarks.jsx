@@ -253,7 +253,7 @@ export default function ViewMarks() {
                             })}
                             <td
                               className={`px-6 py-4 text-center whitespace-nowrap font-bold ${
-                                subject.best3Avg >= 60? 'text-green-700' : 'text-red-700'
+                                subject.best3Avg >= 6? 'text-green-700' : 'text-red-700'
                               }`}
                             >
                               {subject.best3Avg !== null ? `${subject.best3Avg}` : '--'}

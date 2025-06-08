@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash, FaUserGraduate } from "react-icons/fa";
 import axios from "axios";
-import image2 from "../../assets/image3.jpeg";
+import image2 from "../../assets/imag35.jpeg";
 
 const StudentRegister = () => {
   const navigate = useNavigate();

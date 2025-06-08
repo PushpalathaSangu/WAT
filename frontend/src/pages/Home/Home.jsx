@@ -60,9 +60,7 @@ const Home = () => {
         <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
           Weekly Assessment <span className="text-blue-600 hover:text-blue-700 transition-colors duration-300">Tests</span>
         </h1>
-        <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto hover:text-gray-700 transition-colors duration-300">
-          Track your progress, identify strengths, and improve weaknesses with our comprehensive weekly assessment platform.
-        </p>
+      
         
         <div className="flex justify-center mb-8 group">
           <img 
@@ -94,7 +92,7 @@ const Home = () => {
       <div className="bg-white py-12">
         <div className="container mx-auto px-6">
           <h2 className="text-3xl font-bold text-center text-gray-800 mb-12 hover:text-gray-900 transition-colors duration-300">
-            Benefits
+          <span className="text-blue-600 hover:text-blue-700 transition-colors duration-300">Benefits</span>
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">

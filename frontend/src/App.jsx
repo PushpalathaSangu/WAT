@@ -84,7 +84,6 @@ const App = () => {
           <Route path="/faculty-dashboard" element={<Faculty />} />
           <Route path="/faculty/profile" element={<FacultyProfile />} />
           <Route path="/faculty/update-profile" element={<FacultyUpdateProfile />} />
-         
           <Route path="faculty/create-wat" element={<CreateWATPage />} />
           <Route path="/faculty/create-wat-using-pdf" element={<CreateWatUsePdf />} />
           <Route path="/faculty/students-details" element={<StudentsDetails  />} />
