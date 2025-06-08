@@ -90,7 +90,6 @@ const App = () => {
           <Route path="/faculty/students/year/:year" element={<StudentYearDetails />} />
           <Route path="/faculty/view-wats" element={<FacultyViewYears />} />
           <Route path="/faculty/view-wats/:year" element={<FacultyWATsByYear />} />
-          {/* <Route path="/faculty/student-details" element={<FacultyStudentDetails />} /> */}
           <Route path="/faculty/student-details/:year" element={<SectionDetails />} />
           <Route path="/faculty/student-details/:year/:section" element={<StudentsList />} />
           <Route path="/faculty/students/year/:year" element={<StudentYearDetails />} />
