@@ -33,7 +33,7 @@ import StudentProfileUpdate from "./pages/Student/StudentUpdate.jsx";
 import WATAttemptPage from './pages/Student/WatAttemptPage.jsx';
 import ViewMarks from "./pages/Student/ViewMarks.jsx";
 import ViewWats from "./pages/Student/ViewWats.jsx";
-import CompletedWats from "./pages/Student/CompletedWats.jsx";
+
 
 
 // Faculty
@@ -44,10 +44,8 @@ import FacultyUpdateProfile from './pages/Faculty/FacultyUpdateProfile.jsx';
 import StudentsDetails from './pages/Faculty/StudentsDetails.jsx';
 import StudentYearDetails from './pages/Faculty/StudentYearDetails.jsx';
 import CreateWATPage from './pages/Faculty/CreateWatPage.jsx';
-import CreateWatUsePdf from './pages/Faculty/CreateWatUsePdf.jsx';
 import FacultyViewYears from "./pages/Faculty/FacultyViewYears.jsx";
 import FacultyWATsByYear from "./pages/Faculty/FacultyWatsByYear.jsx";
-// import FacultyStudentDetails from "./pages/Faculty/FacultyStudentDetails.jsx";
 import SectionDetails from "./pages/Faculty/SectionDetails.jsx";
 import StudentsList from "./pages/Faculty/StudentsList.jsx";
 import GenerateMcqs  from './pages/Faculty/GenerateMcqs.jsx';
@@ -77,7 +75,7 @@ const App = () => {
           <Route path="/student/wats" element={<ViewWats/>}/>
           <Route path="/student/wat-marks" element={<ViewMarks/>}/>
           <Route path="/wats/:id" element={<WATAttemptPage />} />
-          <Route path="/student/completed-wats" element={<CompletedWats/>} />
+      
           
 
           {/* Faculty Routes */}
@@ -85,7 +83,6 @@ const App = () => {
           <Route path="/faculty/profile" element={<FacultyProfile />} />
           <Route path="/faculty/update-profile" element={<FacultyUpdateProfile />} />
           <Route path="faculty/create-wat" element={<CreateWATPage />} />
-          <Route path="/faculty/create-wat-using-pdf" element={<CreateWatUsePdf />} />
           <Route path="/faculty/students-details" element={<StudentsDetails  />} />
           <Route path="/faculty/students/year/:year" element={<StudentYearDetails />} />
           <Route path="/faculty/view-wats" element={<FacultyViewYears />} />
